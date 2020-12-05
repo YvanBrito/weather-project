@@ -1,12 +1,13 @@
 <template>
   <div class="relative w-fit-content text-gray-600">
     <input
+      ref="searchTextField"
       type="search"
       name="serch"
       placeholder="Search"
-      class="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+      class="bg-white md:w-96 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
     />
-    <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
+    <button class="absolute right-0 top-0 mt-3 mr-4" @click="searchCities">
       <svg
         id="Capa_1"
         class="h-4 w-4 fill-current"
@@ -30,11 +31,30 @@
 </template>
 
 <script>
-export default {}
+/* eslint-disable no-undef */
+
+export default {
+  methods: {
+    async searchCities() {
+      let formatedCities = []
+      try {
+        const cities = await this.$axios.$get(
+          `/googleplacesapi/json?input=${this.$refs.searchTextField.value}&types=(cities)&language=en_US&key=AIzaSyBEtW0PTowEOEdwSD-FwodQ0Ig_l_-Jt4c`
+        )
+        cities.predictions.forEach((city) => {
+          formatedCities.push({
+            name: city.description.split(',')[0],
+            description: city.description,
+            placeId: city.place_id,
+          })
+        })
+        this.$store.commit('newCityList', formatedCities)
+      } catch (error) {
+        formatedCities = []
+      }
+    },
+  },
+}
 </script>
 
-<style>
-.w-fit-content {
-  width: fit-content;
-}
-</style>
+<style></style>

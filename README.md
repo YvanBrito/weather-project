@@ -1,4 +1,4 @@
-# casafy-project
+# weather-app
 
 ## Build Setup
 

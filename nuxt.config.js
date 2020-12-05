@@ -1,7 +1,7 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'casafy-project',
+    title: 'weather-app',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -14,7 +14,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [{ src: '~/plugins/vue2-google-maps.js' }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -30,11 +30,33 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
+
+  vendor: ['vue2-google-maps'],
+
+  proxy: {
+    '/googleplacesapi/': {
+      target: 'https://maps.googleapis.com/maps/api/place/autocomplete',
+      pathRewrite: { '^/googleplacesapi/': '' },
+    },
+    '/googleplacesdetailsapi/': {
+      target: 'https://maps.googleapis.com/maps/api/place/details',
+      pathRewrite: { '^/googleplacesdetailsapi/': '' },
+    },
+    '/googleplacesphotosapi/': {
+      target: 'https://maps.googleapis.com/maps/api/place/',
+      pathRewrite: { '^/googleplacesphotosapi/': '' },
+    },
+    '/apiweather/': {
+      target: 'http://api.openweathermap.org/data/2.5/',
+      pathRewrite: { '^/apiweather/': '' },
+    },
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: { transpile: [/^vue2-google-maps($|\/)/] },
 }

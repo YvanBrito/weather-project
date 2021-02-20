@@ -34,10 +34,10 @@ export default {
     this.loading = true
     try {
       this.cityDetails = await this.$axios.$get(
-        `/googleplacesdetailsapi/json?place_id=${this.cityChosen.placeId}&key=AIzaSyBEtW0PTowEOEdwSD-FwodQ0Ig_l_-Jt4c`
+        `/googleplacesdetailsapi/json?place_id=${this.cityChosen.placeId}&key=`
       )
       this.cityDetails.result.photos.forEach((photo) => {
-        const photoReference = `/googleplacesphotosapi/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=AIzaSyBEtW0PTowEOEdwSD-FwodQ0Ig_l_-Jt4c`
+        const photoReference = `/googleplacesphotosapi/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=`
         this.cityPhotos.push(photoReference)
       })
       this.location = this.cityDetails.result.geometry.location

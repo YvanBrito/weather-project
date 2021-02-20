@@ -39,7 +39,7 @@ export default {
       let formatedCities = []
       try {
         const cities = await this.$axios.$get(
-          `/googleplacesapi/json?input=${this.$refs.searchTextField.value}&types=(cities)&language=en_US&key=AIzaSyBEtW0PTowEOEdwSD-FwodQ0Ig_l_-Jt4c`
+          `/googleplacesapi/json?input=${this.$refs.searchTextField.value}&types=(cities)&language=en_US&key=`
         )
         cities.predictions.forEach((city) => {
           formatedCities.push({
